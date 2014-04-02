@@ -24,6 +24,6 @@ def decode():
 	record(5)
 	speechRec = pocketsphinx.Decoder(hmm = hmdir, lm = lmdir, dict = dictd)
 	wavFile = file(WAVE_OUTPUT_FILENAME,'rb')
-	# speechRec.decode_raw(wavFile)
+	speechRec.decode_raw(wavFile)
 	result = speechRec.get_hyp()
 	print result
