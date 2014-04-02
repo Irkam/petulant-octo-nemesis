@@ -19,7 +19,7 @@ def record(seconds):
 	stream.stop_stream()
 	stream.close()
 	p.terminate()
-	
+
 def decode():
 	record(5)
 	hmdir = "/usr/share/pocketsphinx/model/hmm/wsj1"
