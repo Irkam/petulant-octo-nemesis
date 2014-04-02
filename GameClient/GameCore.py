@@ -1,3 +1,7 @@
+## File : GameCore.py
+## Description : Core classes for the Zork-like game engine
+## Authors : Stanislas "IfElseSwitch" Mur & Jean-Vincent "Irkam" Hay
+
 def printline(line):
     print (line + "\n")
 
