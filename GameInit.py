@@ -1,8 +1,8 @@
 from GameCore import *
 from GameEngine import *
-
-
-room = Room(["Vous êtes dans une fôret.", "La fôret est dense."], [Monster("Gobelin", 3, 3, Weapon("", 1), Armour("", 0)), NPC("Henry", 5, 5, Weapon("", 1), Armour("", 0), "Bonjour.")], [Armour("Cuir", 1)], None)
-ctr = Control(room)
+R1 = Room(["Vous êtes dans une clairière"], [NPC("Charles", 5, 5, Weapon("", 1), Armour("", 0), "Au revoir.")], [Weapon("Epee", 2)], None)
+nextR = createNextRooms(R1 ,None, None, None)
+R0 = Room(["Vous êtes dans une fôret.", "La fôret est dense."], [Monster("Gobelin", 3, 3, Weapon("", 1), Armour("", 0)), NPC("Henry", 5, 5, Weapon("", 1), Armour("", 0), "Bonjour.")], [Armour("Cuir", 1)], nextR)
+ctr = Control(R0)
 ctr.run()
 input("Appuyez sur entrée pour fermer.")

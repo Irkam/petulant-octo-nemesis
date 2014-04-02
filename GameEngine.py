@@ -51,6 +51,15 @@ class Control:
                 outfct("{0}/{1}".format(self.player.hp, self.player.maxHP))
         elif cmd_e[0] == "REPEAT" and len(cmd_e) == 1 :
             self.interpret(self.lastCmd)
+        elif cmd_e[0] == "MOVE" and len(cmd_e) == 2 :
+            if self.currentRoom.isClear():
+                if self.currentRoom.nextRooms != None and self.currentRoom.nextRooms[cmd_e[1]] != None:
+                    self.currentRoom = self.currentRoom.nextRooms[cmd_e[1]]
+                    outfct(self.currentRoom.enterRoom())
+                else : 
+                    outfct("Impossible d'aller par là.")
+            else :
+                outfct("Le chemin est barré par des ennemis")
         else : outfct("Erreur.")
     def check(self):
         out = ""
