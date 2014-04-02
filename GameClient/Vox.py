@@ -22,8 +22,13 @@ def record(seconds):
 	
 def decode():
 	record(5)
+	hmdir = "/usr/share/pocketsphinx/model/hmm/wsj1"
+	lmdir = "/usr/share/pocketsphinx/model/lm/wsj/wlist5o.3e-7.vp.tg.lm.DMP"
+	dictd = "/usr/share/pocketsphinx/model/lm/wsj/wlist5o.dic"
 	speechRec = pocketsphinx.Decoder(hmm = hmdir, lm = lmdir, dict = dictd)
 	wavFile = file(WAVE_OUTPUT_FILENAME,'rb')
-	# speechRec.decode_raw(wavFile)
+	speechRec.decode_raw(wavFile)
 	result = speechRec.get_hyp()
-	print result
+	print (result)
+
+decode()
