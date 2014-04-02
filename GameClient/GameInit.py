@@ -1,3 +1,7 @@
+## File : GameInit.py
+## Description : Initialisation of Zork-like game
+## Authors : Stanislas "IfElseSwitch" Mur & Jean-Vincent "Irkam" Hay
+
 from GameCore import *
 from GameEngine import *
 R1 = Room(["Vous êtes dans une clairière"], [NPC("Charles", 5, 5, Weapon("", 1), Armour("", 0), "Au revoir.")], [Weapon("Epee", 2)], None)

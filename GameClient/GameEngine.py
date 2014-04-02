@@ -1,3 +1,7 @@
+## File : GameEngine.py
+## Description : Zork-like game engine
+## Authors : Stanislas "IfElseSwitch" Mur & Jean-Vincent "Irkam" Hay
+
 from GameCore import *
 
 def input_uppper(prompt):

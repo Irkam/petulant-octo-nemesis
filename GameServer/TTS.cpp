@@ -1,4 +1,7 @@
-//TTS Server part
+// File : TTS.cpp
+// Description : TTS engine part for speech server
+// Authors : Stanislas "IfElseSwitch" Mur & Jean-Vincent "Irkam" Hay
+
 #include <speak_lib.h>
 #include <string>
 #include <malloc.h>
