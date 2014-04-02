@@ -30,3 +30,5 @@ def decode():
 	speechRec.decode_raw(wavFile)
 	result = speechRec.get_hyp()
 	print (result)
+
+decode()
