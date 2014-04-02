@@ -102,6 +102,10 @@ class Trap(Item):
         Item.__init__(self, name, mod)
 
 ##ROOMS    
+
+def createNextRooms(room_North, room_South, room_East, room_West):
+	return {'NORTH':room_North, 'SOUTH':room_South, 'EAST':room_East, 'WEST':room_West}
+
 class Room :
     def __init__(self, outstrs, characters, items, nextRooms):
         self.outstrs = outstrs
@@ -120,6 +124,12 @@ class Room :
             if it.clss != "TRP" : clss = formatClss(it.clss)
             else : clss = formatClss(it.fakeclss)
             out += "\t" + clss +it.name + "\n"
+        out += "Le chemin part : \n"
+        if (self.nextRooms == None) : return out
+        if self.nextRooms["NORTH"] != None : out += "\t-au Nord\n"
+        if self.nextRooms["SOUTH"] != None : out += "\t-au Sud\n"
+        if self.nextRooms["EAST"]  != None  : out += "\t-a l'Est\n"
+        if self.nextRooms["WEST"]  != None  : out += "\t-a l'Ouest\n"
         return out
         
     def isClear(self) :
