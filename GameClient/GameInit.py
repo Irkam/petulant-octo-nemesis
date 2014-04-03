@@ -1,3 +1,4 @@
+# _*_ coding: utf8 _*_
 ## File : GameInit.py
 ## Description : Initialisation of Zork-like game
 ## Authors : Stanislas "IfElseSwitch" Mur & Jean-Vincent "Irkam" Hay

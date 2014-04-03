@@ -1,3 +1,4 @@
+# _*_ coding: utf8 _*_
 ## File : GameCore.py
 ## Description : Core classes for the Zork-like game engine
 ## Authors : Stanislas "IfElseSwitch" Mur & Jean-Vincent "Irkam" Hay

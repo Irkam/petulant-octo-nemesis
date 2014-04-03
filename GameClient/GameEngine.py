@@ -1,13 +1,23 @@
+# _*_ coding: utf8 _*_
 ## File : GameEngine.py
 ## Description : Zork-like game engine
 ## Authors : Stanislas "IfElseSwitch" Mur & Jean-Vincent "Irkam" Hay
 
+import pyttsx
 from GameCore import *
 
-def input_uppper(prompt):
-    return input(prompt).upper()
 
-outfct = print
+def input_uppper(prompt):
+    return raw_input(prompt).upper()
+
+def output_tts(textToSay):
+    print(textToSay)
+    ttsEng = pyttsx.init()
+    ttsEng.runAndWait()
+    ttsEng.say(textToSay)
+    
+
+outfct = output_tts
 infct = input_uppper
 
 class Control:
