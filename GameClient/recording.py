@@ -20,15 +20,15 @@ def closeRecordStream(stream):
 	stream.stop_stream()
 	stream.close()
 
-def writeWAV(pyaudiohandler, frames):
-	wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+def writeWAV(wavefilename, pyaudiohandler, frames):
+	wf = wave.open(wavefilename, 'wb')
 	wf.setnchannels(CHANNELS)
 	wf.setsampwidth(pyaudiohandler.get_sample_size(FORMAT))
 	wf.setframerate(RATE)
 	wf.writeframes(b''.join(frames))
 	wf.close()
 
-def record():
+def record(outputfilename):
 	p = pyaudio.PyAudio()
 	stream = openRecordStream(pyaudiohandler = p)
 	
@@ -41,4 +41,4 @@ def record():
 	closeRecordStream(stream)
 	p.terminate()
 	
-	writeWAV(p, frames)
+	writeWAV(outputfilename, p, frames)
