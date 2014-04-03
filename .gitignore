@@ -1,3 +1,5 @@
 *.stackdump
+*~
+*.swp
+GameClient/output.wav
 __pycache__*
-*.gitignore~
