@@ -8,7 +8,7 @@ from GameCore import *
 
 
 def input_uppper(prompt):
-    return raw_input(prompt).upper()
+    return input(prompt).upper()
 
 def output_tts(textToSay):
     print(textToSay)
