@@ -9,6 +9,7 @@ from decoding import *
 from recording import *
 import wave
 from DecodFunc import *
+
 def input_upper(prompt = ">"):
     return input(prompt).upper()
 
@@ -45,7 +46,8 @@ class Control:
                 return item
         return None
     def interpret(self, cmd):
-        print("cmd :", cmd)
+        if (cmd != "REPEAT"):
+            self.lastCmd = cmd
         cmd_e = cmd.strip().split(" ", 1)
         if cmd_e[0] == "QUIT" :
             self.isRun = False
@@ -108,9 +110,8 @@ class Control:
         while self.isRun == True:
             cmd = infct()
             cmd = buildCommand(cmd, self)
-            self.interpret(cmd)
-            if (cmd != "REPEAT"):
-                self.lastCmd = cmd
+            self.interpret(cmd.strip())
+            
             out = self.check()
             outfct(out)
             input("Appuyez sur entrée pour continuer.")

@@ -36,6 +36,6 @@ def record(outputfilename):
 	#out = Popen(["rec", "_"+outputfilename, " rate 16k silence 1 0.1 3% 1 3.0 3%"])
 	#out.wait()
 	os.system("rm " + outputfilename)
-	cmd = "rec " + outputfilename + " rate 16k silence 1 0.1 1% 1 1.0 3%"
+	cmd = "rec --rate 16k " + outputfilename + " silence 1 0.2 1% 1 1.0 2%"
 	print(cmd)
 	os.system(cmd)

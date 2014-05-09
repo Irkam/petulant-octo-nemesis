@@ -78,6 +78,9 @@ def try_word(vox_str, _type, control, treshold):
 
     if _list == empty:
         return ""
+    
+    for word in _list:
+        word.minlev = INFINITY
     i = 0
     while i < len(_list):
         j = 0
