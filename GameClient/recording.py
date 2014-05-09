@@ -28,17 +28,14 @@ def writeWAV(wavefilename, pyaudiohandler, frames):
 	wf.writeframes(b''.join(frames))
 	wf.close()
 
+
+import os
 def record(outputfilename):
-	p = pyaudio.PyAudio()
-	stream = openRecordStream(pyaudiohandler = p)
-	
-	frames = []
-	
-	for i in range(0, (RATE/CHUNK * RECORD_SEC)):
-		data = stream.read(CHUNK)
-		frames.append(data)
-	
-	closeRecordStream(stream)
-	p.terminate()
-	
-	writeWAV(outputfilename, p, frames)
+	#out = Popen(["rm", outputfilename, "_"+outputfilename])
+	#out.
+	#out = Popen(["rec", "_"+outputfilename, " rate 16k silence 1 0.1 3% 1 3.0 3%"])
+	#out.wait()
+	os.system("rm " + outputfilename)
+	cmd = "rec " + outputfilename + " rate 16k silence 1 0.1 1% 1 1.0 3%"
+	print(cmd)
+	os.system(cmd)

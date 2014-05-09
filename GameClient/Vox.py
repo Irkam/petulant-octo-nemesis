@@ -1,7 +1,7 @@
-import pocketsphinx
+#import pocketsphinx
 
-import recording
-import decoding
+#import recording
+#import decoding
 
-recording.record('output.wav')
-decoding.decode(file('output.wav', 'rb'))
+#recording.record('output.wav')
+#decoding.decode(file('output.wav', 'rb'))

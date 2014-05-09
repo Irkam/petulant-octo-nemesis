@@ -1,115 +1,134 @@
 INFINITY = 50000000
-def levenshtein(s1, s2):
-    if len(s1) < len(s2):
-        return levenshtein(s2, s1)
- 
-    # len(s1) >= len(s2)
-    if len(s2) == 0:
-        return len(s1)
- 
-    previous_row = xrange(len(s2) + 1)
-    for i, c1 in enumerate(s1):
-        current_row = [i + 1]
-        for j, c2 in enumerate(s2):
-            insertions = previous_row[j + 1] + 1 # j+1 instead of j since previous_row and current_row are one character longer
-            deletions = current_row[j] + 1       # than s2
-            substitutions = previous_row[j] + (c1 != c2)
-            current_row.append(min(insertions, deletions, substitutions))
-        previous_row = current_row
- 
-    return previous_row[-1]
-	
-class Word :
-	def __init__(self, word, keywords):
-		self.word = word;
-		self.keywords = keywords;
-		self.minLev = INFINITY;
+def levenshtein(seq1, seq2):
+    s = ' ' + seq1
+    t = ' ' + seq2
+    d = {}
+    S = len(s)
+    T = len(t)
+    for i in range(S):
+        d[i, 0] = i
+    for j in range (T):
+        d[0, j] = j
+    for j in range(1,T):
+        for i in range(1,S):
+            if s[i] == t[j]:
+                d[i, j] = d[i-1, j-1]
+            else:
+                d[i, j] = min(d[i-1, j] + 1, d[i, j-1] + 1, d[i-1, j-1] + 1)
+    return d[S-1, T-1]
 
-cmd_list[0] = Word("MOVE", {"va", "aller"});
-cmd_list[1] = Word("ATTACK", {"attaque", "attaque", "frappe"});
-cmd_list[2] = Word("TAKE", {"prend", "attrape"});
-cmd_list[3] = Word("TALK", {"parle", "parler"});
-cmd_list[4] = Word("SEE", {"arme", "armure", "vie", "pv"});
-cmd_list[5] = Word("QUIT", {"arreter", "stop"});
-cmd_list[6] = Word("PASS", {"passe"});
-cmd_list[7] = Word("REPEAT", {"recommence", "encore", "pareil", "idem"});
 
-dir_list[0] = Word("NORTH", {"nord"});
-dir_list[1] = Word("EAST", {"est"});
-dir_list[2] = Word("WEST",{"ouest"});
-dir_list[3] = Word("SOUTH", {"sud"});
+class Word:
+    def __init__(self, word, keywords):
+        self.word = word
+        self.keywords = keywords
+        self.minlev = INFINITY
 
-stt_list[0] = Word("WEAPON", {"arme"});
-stt_list[1] = Word("ARMOUR", {"armure"});
-stt_list[2] = Word("HP", {"vie", "pv"});
+cmd_list = [Word("MOVE", ["va", "aller"]), Word("ATTACK", ["attaque", "attaque", "frappe"]), Word("TAKE", ["prend", "attrape"]), Word("TALK", ["parle", "parler"]), Word("SEE", ["arme", "armure", "vie", "pv"]), Word("QUIT", ["arreter", "stop"]), Word("PASS", ["passe"]), Word("REPEAT", ["recommence", "encore", "pareil", "idem"])]
+
+dir_list = [Word("NORTH", ["nord"]), Word("EAST", ["est"]), Word("WEST",["ouest"]), Word("SOUTH", ["sud"])]
+
+stt_list = [Word("WEAPON", ["arme"]), Word("ARMOUR", ["armure"]), Word("HP", ["vie", "pv"])]
 
 def build_mnt_list(control):
-	i = 0;
-	mnt_list = [100];
-	for mnt in control.currentRoom.characters:
-		if mnt.clss == "MSTR" : mnt_list[i] = Word(mnt.name.upper(), {mnt.name.lower()}); ++i;
-	return mnt_list;
+    i = 0;
+    mnt_list = [100];
+    for mnt in control.currentRoom.characters:
+        if mnt.clss == "MSTR" :
+            mnt_list[i] = Word(mnt.name.upper(), [mnt.name.lower()])
+            ++i
+    return mnt_list;
+
 
 def build_itm_list(control):
-	i = 0;
-	itm_list = [100];
-	for itm in control.currentRoom.items:
-		itm_list[i] = Word(itm.name.upper(),{itm.name.lower()});
-		++i;
-	return itm_list;
-	
-def build_npc_list(control):
-	i = 0;
-	npc_list = [100];
-	for npc in control.currentRoom.characters:
-		if npc.clss == "NPC" : npc_list[i] = Word(npc.name.upper(),{npc.name.lower()}); 
-		++i;
-	return npc_list;
+    i = 0
+    itm_list = [100]
+    for itm in control.currentRoom.items:
+        itm_list[i] = Word(itm.name.upper(), [itm.name.lower()])
+        ++i
+    return itm_list
 
-def try_word(str, type, control, treshold):
-	list = [100];
-	if type == "cmd" : list = cmd_list;
-	if type == "dir" : list = dir_list;
-	if type == "mnt" : list = build_mnt_list(control);
-	if type == "itm" : list = build_itm_list(control);
-	if type == "npc" : list = build_npc_list(control);
-	if type == "stt" : list = stt_list;
-	
-	i = 0;
-	while i < len(list):
-		j = 0;
-		while j < len(list[i].keywords):
-			list[i].minLev = min(list[i].minLev, levenshtein(keywords[j]));
-			++j;
-		++i;
-	
-	i = 0;
-	final = None;
-	f_lev = INFINITY;
-	while i < len(list):
-		if (f_lev > list[i].minLev && list[i].minLev < treshold):
-			f_lev = list[i].minLev;
-			final = list[i].word;
-		++i;
-	return final;
-			
-	
-def buildCommand(input, control): #input : string; control : GameEngine.Control
-	sequence = input.split(' ');
-	seq_size = len(sequence);
-	seq_ptr = 0;
-	type = "cmd"";
-	cmd = "";
-	while(seq_ptr < seq_size):
-		word = try_word(sequence[seq_ptr], type, control, 10);
-		if word != None : cmd += word + " ";
-		if word == "MOVE"   : type = "dir";
-		if word == "ATTACK" : type = "mnt";
-		if word == "TAKE"	: type = "itm";
-		if word == "TALK"	: type = "npc";
-		if word == "SEE"	: type = "stt"; --seq_ptr;
-		if word == "QUIT"	: break;
-		if word == "PASS"	: break;
-		if word == "REPEAT"	: break;
-		seq_ptr += 1;
-	return cmd;
+
+def build_npc_list(control):
+    i = 0
+    npc_list = [100]
+    for npc in control.currentRoom.characters:
+        if npc.clss == "NPC":
+            npc_list[i] = Word(npc.name.upper(), [npc.name.lower()])
+            ++i
+    return npc_list
+
+
+def try_word(vox_str, _type, control, treshold):
+    #print("WORD :", vox_str)
+    _list = [100]
+    empty = [100]
+    if _type == "cmd":
+        _list = cmd_list
+    if _type == "dir":
+        _list = dir_list
+    if _type == "mnt":
+        _list = build_mnt_list(control)
+    if _type == "itm":
+        _list = build_itm_list(control)
+    if _type == "npc":
+        _list = build_npc_list(control)
+    if _type == "stt":
+        _list = stt_list
+
+    if _list == empty:
+        return ""
+    i = 0
+    while i < len(_list):
+        j = 0
+        while j < len(_list[i].keywords):
+            lev = levenshtein(_list[i].keywords[j], vox_str)
+            _list[i].minlev = min(_list[i].minlev, lev)
+            #print(_list[i].keywords[j], ":",lev,"/",_list[i].minlev)
+            j += 1
+        i += 1
+
+    i = 0
+    final = None
+    f_lev = INFINITY
+    while i < len(_list):
+        if f_lev > _list[i].minlev and _list[i].minlev < treshold:
+            f_lev = _list[i].minlev
+            final = _list[i].word
+        i += 1
+    return final
+
+
+
+def buildCommand(vox_input, control): #input : string; control : GameEngine.Control
+    print(vox_input)
+    sequence = vox_input.split(' ')
+    seq_size = len(sequence)
+    seq_ptr = 0
+    _type = "cmd"
+    cmd = ""
+    while seq_ptr < seq_size:
+        word = try_word(sequence[seq_ptr], _type, control, len(sequence[seq_ptr]))
+        if word != None:
+            cmd += word + " "
+        if word == "MOVE":
+            _type = "dir"
+        if word == "ATTACK":
+            _type = "mnt"
+        if word == "TAKE":
+            _type = "itm"
+        if word == "TALK":
+            _type = "npc"
+        if word == "SEE":
+            _type = "stt"
+            seq_ptr -= 1
+        if word == "QUIT":
+            break
+        if word == "PASS":
+            break
+        if word == "REPEAT":
+            break
+        seq_ptr += 1
+        
+    print(cmd)
+    return cmd;

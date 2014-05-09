@@ -59,6 +59,8 @@ class Character :
         elif (item.clss == "TRP") :
             self.hp -= item.mod
             out = self.name + " est tombé dans un piège " + item.name + " et a reçu {0} degats".format(item.mod)
+        else :
+            out = "ERROR " + item.clss
         return out
 
 class Player(Character):

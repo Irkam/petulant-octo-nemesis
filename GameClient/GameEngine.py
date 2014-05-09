@@ -3,22 +3,29 @@
 ## Description : Zork-like game engine
 ## Authors : Stanislas "IfElseSwitch" Mur & Jean-Vincent "Irkam" Hay
 
-import pyttsx
+#import pyttsx
 from GameCore import *
-
-
-def input_uppper(prompt):
+from decoding import *
+from recording import *
+import wave
+from DecodFunc import *
+def input_upper(prompt = ">"):
     return input(prompt).upper()
 
-def output_tts(textToSay):
-    print(textToSay)
-    ttsEng = pyttsx.init()
-    ttsEng.runAndWait()
-    ttsEng.say(textToSay)
+#def output_tts(textToSay):
+#    print(textToSay)
+#    ttsEng = pyttsx.init()
+#    ttsEng.runAndWait()
+#    ttsEng.say(textToSay)
+
+def input_speech():
+    record("output.flac")
+    return decode('output.flac')
     
 
-outfct = output_tts
-infct = input_uppper
+#outfct = output_tts
+outfct = print
+infct = input_speech
 
 class Control:
     def __init__(self, startRoom):
@@ -28,15 +35,18 @@ class Control:
         self.isRun = False
     def seekCharacter(self, characterName):
         for character in self.currentRoom.characters:
-            if character.name.upper() == characterName :
+            if character.name.upper() == characterName.upper() :
                 return character
         return None
     def seekItem(self, itemName):
         for item in self.currentRoom.items:
-            if item.name.upper() == itemName : return item
+            print(item.name.upper(), itemName)
+            if item.name.upper() == itemName : 
+                return item
         return None
     def interpret(self, cmd):
-        cmd_e = cmd.split(" ", 1)
+        print("cmd :", cmd)
+        cmd_e = cmd.strip().split(" ", 1)
         if cmd_e[0] == "QUIT" :
             self.isRun = False
             return
@@ -51,7 +61,10 @@ class Control:
             item = self.seekItem(cmd_e[1])
             if item != None:
                 out = self.player.take(item)
+                self.currentRoom.items.remove(item)
                 outfct(out)
+            else :
+                outfct("Cible invalide")
         elif cmd_e[0] == "TALK" and len(cmd_e) == 2 :
             target = self.seekCharacter(cmd_e[1])
             if target != None and target.clss == "NPC":
@@ -93,9 +106,11 @@ class Control:
         outfct(out)
         self.isRun = True
         while self.isRun == True:
-            cmd = infct(">")
+            cmd = infct()
+            cmd = buildCommand(cmd, self)
             self.interpret(cmd)
             if (cmd != "REPEAT"):
                 self.lastCmd = cmd
             out = self.check()
             outfct(out)
+            input("Appuyez sur entrée pour continuer.")
