@@ -110,10 +110,12 @@ def buildCommand(vox_input, control): #input : string; control : GameEngine.Cont
     seq_ptr = 0
     _type = "cmd"
     cmd = ""
-    while seq_ptr < seq_size:
+    i = 2
+    while seq_ptr < seq_size and i > 0:
         word = try_word(sequence[seq_ptr], _type, control, len(sequence[seq_ptr]))
         if word != None:
             cmd += word + " "
+            i -= 1
         if word == "MOVE":
             _type = "dir"
         if word == "ATTACK":

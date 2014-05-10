@@ -34,6 +34,7 @@ class Control:
         self.player = Player()
         self.lastCmd = ""
         self.isRun = False
+        self.interpretcode = 0
     def seekCharacter(self, characterName):
         for character in self.currentRoom.characters:
             if character.name.upper() == characterName.upper() :
@@ -46,6 +47,7 @@ class Control:
                 return item
         return None
     def interpret(self, cmd):
+        self.interpretcode = 1
         if (cmd != "REPEAT"):
             self.lastCmd = cmd
         cmd_e = cmd.strip().split(" ", 1)
@@ -58,7 +60,9 @@ class Control:
             if target != None:
                 out = self.player.attack(target)
                 outfct(out)
-            else : outfct("Cible invalide")
+            else : 
+                outfct("Cible invalide")
+                self.interpretcode = 0
         elif cmd_e[0] == "TAKE" and len(cmd_e) == 2:
             item = self.seekItem(cmd_e[1])
             if item != None:
@@ -67,6 +71,7 @@ class Control:
                 outfct(out)
             else :
                 outfct("Cible invalide")
+                self.interpretcode = 0
         elif cmd_e[0] == "TALK" and len(cmd_e) == 2 :
             target = self.seekCharacter(cmd_e[1])
             if target != None and target.clss == "NPC":
@@ -78,6 +83,8 @@ class Control:
                 outfct(self.player.armour.name + " : {0} res".format(self.player.armour.mod))
             elif cmd_e[1] == "HP" :
                 outfct("{0}/{1}".format(self.player.hp, self.player.maxHP))
+            else :
+                self.interpretcode = 0
         elif cmd_e[0] == "REPEAT" and len(cmd_e) == 1 :
             self.interpret(self.lastCmd)
         elif cmd_e[0] == "MOVE" and len(cmd_e) == 2 :
@@ -87,9 +94,12 @@ class Control:
                     outfct(self.currentRoom.enterRoom())
                 else : 
                     outfct("Impossible d'aller par là.")
+                    self.interpretcode = 0
             else :
                 outfct("Le chemin est barré par des ennemis")
-        else : outfct("Erreur.")
+        else : 
+            outfct("Erreur.")
+            self.interpretcode = 0
     def check(self):
         out = ""
         for character in self.currentRoom.characters:
@@ -111,7 +121,7 @@ class Control:
             cmd = infct()
             cmd = buildCommand(cmd, self)
             self.interpret(cmd.strip())
-            
-            out = self.check()
-            outfct(out)
+            if self.interpretcode == 1:
+                out = self.check()
+                outfct(out)
             input("Appuyez sur entrée pour continuer.")
