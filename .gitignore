@@ -6,3 +6,5 @@ GameClient/output.wav
 __pycache__*
 *.odt#
 *.wav
+*.wav
+*.pyc

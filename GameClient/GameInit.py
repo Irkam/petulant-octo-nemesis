@@ -33,14 +33,14 @@ sol = Monster("Soldat", 10, 10, sword, mail)
 che = Monster("Chevalier", 20, 20, flail, plaq)
 bar = Monster("Barbare", 40, 40, axe, leather)
 dem = Monster("Demon", 100, 100, katana, mithril) #GARDS SECRET ULTIMATE WEAPON
-dra = Monster("Dragon", 70, axe, plaq) #GARDS SECRET ULTIMATE ARMOUR
+dra = Monster("Dragon", 70, 70, axe, plaq) #GARDS SECRET ULTIMATE ARMOUR
 
 #NPC
 Henry = NPC("Henry", 5, 5, no_weapon, no_armour, "Bonjour.")
 
 #ROOMS
 #tutorial rooms
-nextR = createNextRooms(room_0, None, None, None)
+nextR = createNextRooms(None, None, None, None)
 tuto_4 = Room(["Vous êtes presque pret à partir à l'aventure. Pour savoir votre santé actuelle, dite vie. Pour connaitre votre arme, dites arme, et pour votre armure, dite armure. Sachez enfin que dire stop ou arrete ferme le jeu. Allez au nord pour commencer."], [],[], nextR)
 nextR = createNextRooms(tuto_4, None, None, None)
 tuto_3 = Room(["Très bien. Maintenant, vous allez vous battre. Dites attaque ou frappe puis le nom du monstre pour l'attaquer. Par exemple ici, vous devrez dire frappe le gobelin. Vous pouvez aussi repeter la dernière action en disant encore, pareil, idem, ou recommence. Vous pouvez aussi passer un tour, mais je n'en voit pas l'interet. Les monstres vous enpêchent de quitter la salle. Battez-les, puis allez au Nord"],[gob], [], nextR)
@@ -51,9 +51,6 @@ tuto_1 = Room(["Bien. Pour prendre un objet, dites attrape ou prends puis le nom
 nextR = createNextRooms(tuto_1, None, None, None)
 tuto_0 = Room(["Bienvenue aventurier ! Avant de commencer votre aventure, vous devez connaitre les ordres fondamentaux. Pour vous deplacer de salles en salles, dites va au puis la direction. Dites va au nord pour aller au nord. Dire aller au nord marche aussi. Allez au nord pour continuer le tutoriel."], [], [], nextR)
 
-R1 = Room(["Vous êtes dans une clairière"], [NPC("Charles", 5, 5, no_weapon, , "Au revoir.")], [sword, None)
-nextR = createNextRooms(R1 ,None, None, None)
-R0 = Room(["Vous êtes dans une fôret.", "La fôret est dense."], [Henry], [Armour("Cuir", 1)], nextR)
 ctr = Control(tuto_0)
 ctr.run()
 input("Appuyez sur entrée pour fermer.")

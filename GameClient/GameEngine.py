@@ -25,7 +25,12 @@ def input_speech():
     return decode('output.flac')
 
 def output_tts(text):
-    speak(text, lang="fr")
+    texts = []
+    i = 0
+    while i < len(text):
+        endcut = min(100, len(text)-i)-1
+        speak(text[i:endcut], lang="fr")
+        i += endcut+1
     
 
 outfct = output_tts

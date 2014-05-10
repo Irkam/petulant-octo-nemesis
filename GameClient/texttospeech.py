@@ -9,6 +9,9 @@ def speak(text='hello', lang='en', fname='ttsout.wav', player='vlc'):
     """ Send text to Google's text to speech service
     and returns created speech (wav file). """
 
+    if(len(text)<1):
+	    return
+
     limit = min(100, len(text))#100 characters is the current limit.
     text = text[0:limit]
     print("Text to speech:", text)
