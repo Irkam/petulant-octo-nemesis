@@ -1,5 +1,7 @@
 *.stackdump
 *~
 *.swp
+*.pyc
 GameClient/output.wav
 __pycache__*
+*.odt#
