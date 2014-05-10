@@ -5,7 +5,7 @@ import time
 import os
 
 
-def speak(text='hello', lang='en', fname='ttsout.wav', player='mplayer'):
+def speak(text='hello', lang='en', fname='ttsout.wav', player='vlc'):
     """ Send text to Google's text to speech service
     and returns created speech (wav file). """
 
@@ -26,7 +26,7 @@ def speak(text='hello', lang='en', fname='ttsout.wav', player='mplayer'):
     play_wav(fname, player)
 
 
-def play_wav(filep, player='mplayer'):
+def play_wav(filep, player='vlc'):
     print("Playing %s file using %s" % (filep, player))
     os.system(player + " " + filep)
 

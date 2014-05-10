@@ -7,6 +7,7 @@
 from GameCore import *
 from decoding import *
 from recording import *
+from texttospeech import *
 import wave
 from DecodFunc import *
 
@@ -22,10 +23,12 @@ def input_upper(prompt = ">"):
 def input_speech():
     record("output.flac")
     return decode('output.flac')
+
+def output_tts(text):
+    speak(text, lang="fr")
     
 
-#outfct = output_tts
-outfct = print
+outfct = output_tts
 infct = input_speech
 
 class Control:
