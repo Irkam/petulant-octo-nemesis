@@ -7,12 +7,12 @@ def printline(line):
     print (line + "\n")
 
 def formatClss(clss):
-    if   clss == "MSTR" : return "Monstre : "
-    elif clss == "NPC"  : return "PNJ : "
-    elif clss == "WPN"  : return "Arme : "
-    elif clss == "ARMR" : return "Armure : "
-    elif clss == "HEAL" : return "Soins : "
-    elif clss == "BST"  : return "Boost : "
+    if   clss == "MSTR" : return "Un monstre : "
+    elif clss == "NPC"  : return "Un personnage : "
+    elif clss == "WPN"  : return "Une arme : "
+    elif clss == "ARMR" : return "Une armure : "
+    elif clss == "HEAL" : return "Un soin : "
+    elif clss == "BST"  : return "Un boost : "
     else : return ""
     
 ##CHARACTERS
@@ -40,25 +40,25 @@ class Character :
         else :
             out += self.name + " "
             verbForm = "a"
-        out += verbForm + " attaqué " + Targname + "et " + verbForm + " infligé {0} degats.".format(dmg)
+        out += verbForm + " attaqué " + Targname + "et " + verbForm + " infligé {0} dégats.".format(dmg)
         return out
     def take(self, item):
         out = ""
         if (item.clss == "WPN") :
             self.weapon = item
-            out = self.name + " s'est équipé de " + item.name + "({0} degats)".format(item.mod)
+            out = self.name + " s'est équipé de " + item.name + "({0} dégats).".format(item.mod)
         elif (item.clss == "ARMR") :
             self.armour = item
-            out = self.name + " s'est équipé de " + item.name + "({0} protection)".format(item.mod)
+            out = self.name + " s'est équipé de " + item.name + "({0} protection).".format(item.mod)
         elif (item.clss == "HEAL") :
             self.hp = min(self.maxHP, self.hp + item.mod)
-            out = self.name + " s'est soigné de {0} pv".format(item.mod)
+            out = self.name + " s'est soigné de {0} points de vie".format(item.mod)
         elif (item.clss == "BST") :
             self.maxHP += item.mod
-            out = self.name + " a boosté ses PV max de {0} pv".format(item.mod)
+            out = self.name + " a boosté ses PV max de {0} points de vie.".format(item.mod)
         elif (item.clss == "TRP") :
             self.hp -= item.mod
-            out = self.name + " est tombé dans un piège " + item.name + " et a reçu {0} degats".format(item.mod)
+            out = self.name + " est tombé dans un piège " + item.name + " et a reçu {0} dégats.".format(item.mod)
         else :
             out = "ERROR " + item.clss
         return out
@@ -125,18 +125,18 @@ class Room :
         out += " Vous y voyez : \n"
         for ch in self.characters:
             clss = formatClss(ch.clss)
-            out += "\t" + clss + ch.name + "\n"
+            out += "\t" + clss + ch.name + ".\n"
         for it in self.items :
             clss = ""
             if it.clss != "TRP" : clss = formatClss(it.clss)
             else : clss = formatClss(it.fakeclss)
-            out += "\t" + clss +it.name + "\n"
+            out += "\t" + clss +it.name + ".\n"
         out += "Le chemin part : \n"
         if (self.nextRooms == None) : return out
-        if self.nextRooms["NORTH"] != None : out += "\t-au Nord\n"
-        if self.nextRooms["SOUTH"] != None : out += "\t-au Sud\n"
-        if self.nextRooms["EAST"]  != None  : out += "\t-a l'Est\n"
-        if self.nextRooms["WEST"]  != None  : out += "\t-a l'Ouest\n"
+        if self.nextRooms["NORTH"] != None : out += "\t-au Nord.\n"
+        if self.nextRooms["SOUTH"] != None : out += "\t-au Sud.\n"
+        if self.nextRooms["EAST"]  != None  : out += "\t-a l'Est.\n"
+        if self.nextRooms["WEST"]  != None  : out += "\t-a l'Ouest.\n"
         return out
         
     def isClear(self) :

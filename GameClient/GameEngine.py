@@ -25,12 +25,7 @@ def input_speech():
     return decode('output.flac')
 
 def output_tts(text):
-    texts = []
-    i = 0
-    while i < len(text):
-        endcut = min(100, len(text)-i)-1
-        speak(text[i:endcut], lang="fr")
-        i += endcut+1
+    speak(text, lang="fr")
     
 
 outfct = output_tts
@@ -86,11 +81,11 @@ class Control:
                 outfct(target.name + " : " + target.dialog)
         elif cmd_e[0] == "SEE" and len(cmd_e) == 2 :
             if cmd_e[1] == "WEAPON" :
-                outfct(self.player.weapon.name + " : {0} dmg".format(self.player.weapon.mod))
+                outfct(self.player.weapon.name + ", inflige {0} dégats".format(self.player.weapon.mod))
             elif cmd_e[1] == "ARMOUR" :
-                outfct(self.player.armour.name + " : {0} res".format(self.player.armour.mod))
+                outfct(self.player.armour.name + ", résiste à {0} dégats".format(self.player.armour.mod))
             elif cmd_e[1] == "HP" :
-                outfct("{0}/{1}".format(self.player.hp, self.player.maxHP))
+                outfct("{0} sur {1}".format(self.player.hp, self.player.maxHP))
             else :
                 self.interpretcode = 0
         elif cmd_e[0] == "REPEAT" and len(cmd_e) == 1 :
@@ -132,4 +127,3 @@ class Control:
             if self.interpretcode == 1:
                 out = self.check()
                 outfct(out)
-            input("Appuyez sur entrée pour continuer.")
